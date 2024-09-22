@@ -1,0 +1,220 @@
+{% extends 'adminbase2.html' %}
+{% load static %}
+{% block content %}
+<style>
+        .timer-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .tb{
+        border:1px dashed #EB1616;
+        text-align:center;
+        padding:20px;
+    }
+
+    td.tb{
+        padding:22px;
+
+    }
+    .timer-digit {
+        font-size: 30px;
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+    .checkbox-column {
+        width: 60px;
+    }
+
+
+
+    #timer-box {
+        border: 2px solid #EB1616;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    #timer-box:hover {
+        box-shadow: 0 0 20px rgba(235, 22, 22, 0.5);
+    }
+
+    #timer {
+        font-size: 2em;
+        margin-top: 10px;
+        color: #EB1616;
+        transition: color 0.3s ease;
+    }
+
+    #timer-box:hover #timer {
+        color: #fff;
+    }
+
+    #startTimerCheckbox {
+        margin-top: 10px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+  <!-- Widget Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class="h-100 bg-secondary rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="mb-0">Tutorial Videos</h6>
+                                <a href=""></a>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-3">
+                                <video width="350px;" height="400px;" autoplay loop controls>
+                                    <source src="{{tutv.video.url}}">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class="h-100 bg-secondary rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Details</h6>
+                                <a href=""></a>
+                            </div>
+                            <div>
+                                <center>
+                                <table class="tb">
+                                    <tr class="tb">
+                                        <th class="tb">Reps</th>
+                                        <td class="tb" colspan="5" id="gf">{{tutd.reps}}</td>
+
+                                    </tr>
+                                    <tr class="tb">
+                                        <th class="tb">Sets</th>
+                                        <td class="tb">{{tutd.sets}}</td>
+                                    </tr>
+                                    <tr class="tb">
+                                        <th class="tb">Rest Time</th>
+                                        <td class="tb">{{tutd.rest_time}} minutes</td>
+                                    </tr>
+                                </table>
+                                    <br>
+                                </center>
+                            </div>
+
+                        <div class="btnGroup">
+                            <span class="Btn" id="verifiBtn">
+                                <div id="timer-box">
+                                    <h2>Rest Timer</h2>
+                                    <div id="timer">02:00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class="h-100 bg-secondary rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Exercises</h6>
+                                <a href=""></a>
+                            </div>
+                            <div class="d-flex mb-2">
+                                {% for i in scat %}
+                                <a href="{% url 'custhome' mcid i.id %}"><button type="button" class="btn btn-primary ms-2">{{i.sub_category_name}}</button></a>
+                                {% endfor %}
+                            </div>
+                            {% for i in tut %}
+                            <a href="{% url 'custvideos' i.id mcid %}">
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" type="checkbox" hx-post="{% url 'points' %}" hx-trigger="change" hx-target="#status">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>{{i.exercise_name}}</span>
+                                        {% load my_filters %}
+                                        <table>
+                                        <tr>
+                                        {% for x in i.sets|times %}
+                                        <td style="text-align:center;margin-left:30px;"><input type="checkbox" class="timer-checkbox" style="margin-left:20px;" ></td>
+                                        {% endfor %}
+                                        </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div></a>
+                            {% endfor %}
+                            <div id="status" class="btn btn-danger;">
+                            {% include 'status.html' %}
+                            </div>
+                        </div>
+                    </div>
+                    <center>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Our Trainers</h6>
+                            <div class="owl-carousel testimonial-carousel">
+                                {% for i in trainer %}
+                                <div class="testimonial-item text-center">
+                                    <img class="img-fluid rounded-circle mx-auto mb-4" src="{{i.trainer_image.url}}" style="width: 100px; height: 100px;">
+                                    <h5 class="mb-1">{{i.trainer_name.upper}}</h5>
+                                    <p style="color:green;">{{i.trainer_level.upper}}</p>
+                                    <p class="mb-0">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    </center>
+                    <div class="col-sm-12 col-xl-6">
+                    </div>
+                </div>
+            </div>
+        <!-- Widget End -->
+<script>
+    function startTimer(durationInSeconds) {
+        let timerElement = document.getElementById('timer');
+        let timer = durationInSeconds;
+        let minutes, seconds;
+
+        const intervalId = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            timerElement.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(intervalId); // stop the timer when it reaches 0
+                document.querySelectorAll('.timer-checkbox').forEach(checkbox => {
+                    checkbox.checked = false; // uncheck all checkboxes
+                });
+                timerElement.textContent = "Timer Expired";
+            }
+        }, 1000);
+    }
+
+    // Listen for checkbox changes
+    document.querySelectorAll('.timer-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                // Set the duration of the timer in seconds
+                const timerDuration = {{tutd.rest_time}} * 60; // 2 minutes
+                startTimer(timerDuration);
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+{% endblock %}

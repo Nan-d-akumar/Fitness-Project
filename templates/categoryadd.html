@@ -1,0 +1,105 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #000;
+            color:  #EB1616;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .category-form {
+            background-color: #000;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #F4560F;
+            border-radius: 5px;
+            background-color: #000;
+            color:  #EB1616;
+        }
+
+        .form-group input[type="file"] {
+            border: none;
+            background-color: transparent;
+            color:  #EB1616;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #FFA500;
+            color: #000;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+    <title>Category Input Form</title>
+</head>
+<body>
+
+    <div class="category-form">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="categoryName">Category Name:</label>
+                <input type="text" id="categoryName" name="cname" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="categoryImage">Category Image:</label>
+                <input type="file" id="categoryImage" name="cimg" accept="image/*" required>
+            </div>
+
+            <div class="form-group">
+                <label for="categoryDescription">Category Description:</label>
+                <textarea id="categoryDescription" name="cdesc" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Submit" style="background-color: #EB1616;">
+            </div>
+        </form>
+    </div>
+{% if messages %}
+<ul class="messages">
+{% for message in messages %}
+    <script>
+     alert("{{message}}");
+    </script>
+{% endfor %}
+</ul>
+{% endif %}
+
+</body>
+</html>
+
+{% endblock %}

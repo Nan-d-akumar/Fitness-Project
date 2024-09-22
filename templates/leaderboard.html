@@ -1,0 +1,34 @@
+{% extends 'adminbase2.html' %}
+{% load static %}
+{% block content %}
+<div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col">Si.No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">points</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in po %}
+                                {% if i.customer.id == request.user.id %}
+                                <tr style="border:1px solid green;">
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.customer.first_name.upper}}</td>
+                                    <td>{{i.points}}</td>
+
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.customer.first_name.upper}}</td>
+                                    <td>{{i.points}}</td>
+
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+    {% endblock %}

@@ -1,0 +1,48 @@
+{% load static %}
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Recent Sales</h6>
+                        <a href="{% url 'database_to_excelsales' %}" class="btn btn-success rounded-pill m-8" style="margin-left:900px;">Exel</a>
+                        <a href="{% url 'generate_pdfsales' %}"  class="btn btn-square btn-info m-2" style="border:solid;padding:5px;">Pdf</a>
+                        <a href="">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    {% for i in pyt %}
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.card.customer.first_name}}</td>
+                                    {% if i.type == 'T' %}
+                                    <td>Trainer</td>
+                                    {% else %}
+                                    <td>Diet</td>
+                                    {% endif %}
+                                    <td>{{i.date}}</td>
+                                    <td>{{i.amount}}</td>
+                                </tr>
+
+                                {% endfor %}
+                                <tr>
+                                    <td></td>
+                                    <td style="color:#EB1616;text-align:center;">Total - </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="border:2px solid #EB1616;color:#EB1616;text-align:center;">₹ {{tot}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>

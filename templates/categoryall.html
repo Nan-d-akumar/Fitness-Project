@@ -1,0 +1,63 @@
+{% extends 'adminbase.html' %}
+{% block content %}
+{% load static %}
+<head><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script></head>
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Category List</h6>
+                        <a href="{% url 'database_to_excelcat' %}" class="btn btn-success rounded-pill m-8" style="margin-left:850px;">Exel</a>
+                        <a href="{% url 'generate_pdfcategory' %}"  class="btn btn-square btn-info m-2" style="border:solid;padding:5px;">pdf</a>
+                        <a href="{% url 'catadd' %}" style="border:solid;padding:5px;">Add Category</a>
+
+
+
+                    </div>
+                    <div class="table-responsive">
+                        <table id="my-table" class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Category Image</th>
+                                    <th scope="col">Category Description</th>
+                                    <th scope="col" style="display: none;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in c %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.category_name}}</td>
+                                    <td><img src="{{i.category_image.url}}" height="50" width="60"></td>
+                                    <td>{{i.category_desc|truncatewords:5}}</td>
+                                    <td  id="action-{{forloop.counter}}" ><a href="{% url 'catedit' i.id %}"><button class="btn btn-success btn-sm">Edit</button></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+<script>
+function downloadPDF() {
+    // Hide the Action column in PDF
+    {% for i in c %}
+        document.getElementById('action-{{forloop.counter}}').style.display = 'none';
+    {% endfor %}
+
+    // Generate the PDF
+    const element = document.getElementById('my-table');
+    html2pdf()
+        .from(element)
+        .save('table.pdf');
+
+    // Show the Action column after generating the PDF
+    {% for i in c %}
+        document.getElementById('action-{{forloop.counter}}').style.display = '';
+    {% endfor %}
+}
+</script>
+
+{% endblock %}

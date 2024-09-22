@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('/static/img/bank.jpg'); /* Replace 'payment-background.jpg' with your image file */
+            background-size: cover;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .card {
+            background-color: #3498db;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            padding: 30px;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            z-index: -1;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-align: left;
+            color: #fff;
+            transition: color 0.3s ease-out;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s ease-out, color 0.3s ease-out;
+        }
+        input:focus,
+        input:hover {
+            background-color: #fff;
+            color: #333;
+        }
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-out;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+        .card-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <div class="card">
+        <i class="card-icon">&#128179;</i>
+        <label for="cardNumber">Card Number</label>
+        <input type="text" id="cardNumber" maxlength="16" minlength="16" autofocus name="cardNumber" value="{{card.card_number}}" placeholder="**** **** **** 1234" required>
+
+        <label for="expiryDate">Expiry Date</label>
+        <input type="date" id="expiryDate" name="expiryDate"  value="{{card.expiry_date|date:'Y-m-d'}}" placeholder="YYYY-MM-DD" required>
+
+        <label for="cvv">CVV</label>
+        <input type="password" id="cvv" name="cvv" value="" minlength="3" maxlength="3" placeholder="cvv" required>
+
+        <button type="submit" value="submit">Submit</button>
+    </div>
+</form>
+    <script>
+        function submitForm() {
+            // You can add JavaScript logic here to handle form submission
+            alert('Form submitted! Add your logic for processing.');
+        }
+    </script>
+{% if messages %}
+<ul class="messages">
+{% for message in messages %}
+    <script>
+     alert("{{message}}");
+    </script>
+{% endfor %}
+</ul>
+{% endif %}
+</body>
+</html>

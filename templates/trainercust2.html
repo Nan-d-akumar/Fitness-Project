@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('/static/img/gymplane.jpg') center/cover fixed no-repeat; /* Replace 'your-background-image.jpg' with your image file */
+            color: #191C24;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .card {
+            width: 400px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        .card-header {
+            background-color: #EB1616;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .icon {
+            margin-right: 10px;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="card-header">
+            <i class="icon fas fa-user"></i> Trainer Details
+        </div>
+        <div class="card-body" style="text-align:center;">
+            <img src="{{tr.trainer_image.url}}" alt="Trainer Image" style="width:300px;height:200px;border:1px solid black;">
+
+            <div class="form-group" style="margin-top:40px;">
+                <label for="name"><i class="icon fas fa-user"></i> Name</label>
+                <input type="text" id="name" name="name" placeholder="" value="{{tr.trainer_name}}" disabled style="background-color:white;text-align:center;">
+            </div>
+            <div class="form-group">
+                <label for="age"><i class="icon fas fa-birthday-cake"></i> Age</label>
+                <input type="text" id="age" name="age" placeholder="" value="{{tr.trainer_age}}" disabled style="background-color:white;text-align:center;">
+            </div>
+            <div class="form-group">
+                <label for="gender"><i class="icon fas fa-venus-mars"></i> Gender</label>
+                <input type="text" id="gender" name="gender" placeholder="" value="{{tr.trainer_gender}}" disabled style="background-color:white;text-align:center;">
+            </div>
+            <div class="form-group">
+                 <label for="height"><i class="icon fas fa-phone"></i> Phone</label>
+                <input type="text" id="height" name="height" placeholder="" value="{{tr.trainer_phone}}" disabled style="background-color:white;text-align:center;">
+            </div>
+            <div class="form-group">
+                    <label for="weight"><i class="icon fas fa-level-up-alt"></i> Level</label>
+                <input type="text" id="weight" name="weight" placeholder="" value="{{tr.trainer_level}}" disabled style="background-color:white;text-align:center;">
+            </div>
+            {% if tex %}
+
+            {% else %}
+            <a href="{% url 'paym2' tr.id %}"><button type="button" style="background-color:green;color:white;padding:10px;">Purchase</button></a>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+
+
+</html>

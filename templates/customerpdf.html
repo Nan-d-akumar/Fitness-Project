@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Customer List</title>
+    <style type="text/css">
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 5px;
+            background-color: #fff;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 5px;
+            vertical-align: top;
+            border-top: 1px solid #000;
+            text-align: center;
+            font-size:12px;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #000;
+        }
+
+        .table tbody + tbody {
+            border-top: 2px solid #000;
+        }
+        td{
+            font-size:13px;
+        }
+
+        .table .table {
+            background-color: #fff;
+        }
+
+        .list-group {
+            display: block;
+            width: 100%;
+            list-style: none;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .list-group p {
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            list-style: none;
+            font-size: 1.1em;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <img src="static/img/COURSE-removebg-preview (1) (1).png" alt="no image"  height="100px" width="200px"/>
+        </div>
+
+        <div class="list-group">
+            <p style="text-align:center;font-size:16px;"><b>Customer List</b></p>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th colspan="2">SI no</th>
+                <th colspan="2">Customer name</th>
+                <th colspan="2">Contact</th>
+
+                <th colspan="2">Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in cust %}
+                <tr>
+                    <td colspan="2">{{forloop.counter}}</td>
+                    <td colspan="2" style="font-size:13px;">{{i.cust_fname}}</td>
+                    <td colspan="2" style="font-size:13px;height:90px;width:200px;">{{i.cust_phone}}</td>
+                    <td colspan="2">{{i.cust_email}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h3>{% now "" %}</h3>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+{% extends 'adminbase2.html' %}
+{% load static %}
+{% block content %}
+<style>
+        .timer-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .tb{
+        border:1px dashed #EB1616;
+        text-align:center;
+        padding:20px;
+    }
+
+    td.tb{
+        padding:22px;
+
+    }
+
+     form {
+            background-color: #191C24;;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+</style>
+  <!-- Widget Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class="h-100 bg-secondary rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0"> Diet Details</h6>
+                                <a href=""></a>
+                            </div>
+                            <div>
+                                <center>
+                                 {% if d %}
+                                <button type="button" class="btn btn-lg btn-success m-2" >Diet Plan Activated</button><br>
+                                    <a href="{{d.diet.url}}" download="{{d.diet}}.pdf">Download Diet Plan</a><br>
+                                    <a href="{% url 'rqdt' %}"><button type="button" class="btn btn-sm btn-warning m-2" >Request For Another Diet</button></a>
+                                    {% elif w %}
+                                    <a><button type="button" class="btn btn-lg btn-warning m-2" >Wait for our approval.!</button></a>
+                                    {% else %}
+                                    <a href="{% url 'rqdt' %}"><button type="button" class="btn btn-lg btn-info m-2" >Request for a diet</button></a>
+                                    {% endif %}
+                                    <br>
+                                </center>
+                            </div>
+
+                        <div class="btnGroup">
+                            <span class="Btn" id="verifiBtn">
+                                <div id="timer-box">
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-xl-6">
+                        <div class="h-100 bg-secondary rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">BMI Calculator</h6>
+                                <a href=""></a>
+                            </div>
+                            <form id="bmiCalorieForm">
+                            <label for="gender">Gender:</label>
+                            <select id="gender" name="gender" required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+
+                            <label for="weight">Weight (kg):</label>
+                            <input type="number" id="weight" name="weight" required>
+
+                            <label for="height">Height (cm):</label>
+                            <input type="number" id="height" name="height" required>
+
+                            <label for="age">Age:</label>
+                            <input type="number" id="age" name="age" required>
+
+                            <label for="activityLevel">Activity Level:</label>
+                            <select id="activityLevel" name="activityLevel" required>
+                                <option value="sedentary">Sedentary (little or no exercise)</option>
+                                <option value="lightlyActive">Lightly active (light exercise/sports 1-3 days/week)</option>
+                                <option value="moderatelyActive">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+                                <option value="veryActive">Very active (hard exercise/sports 6-7 days a week)</option>
+                                <option value="extraActive">Extra active (very hard exercise/sports & physical job or 2x training)</option>
+                            </select>
+
+                            <button type="button" class="btn btn-lg btn-primary m-2" onclick="calculateBMIAndCalories()">Calculate BMI & Calories</button>
+
+                            <label for="result">Result:</label>
+                            <textarea id="result" name="result" style="border:5px solid #EB1616;" rows="4" readonly></textarea>
+                        </form>
+                        </div>
+                    </div>
+
+        <!-- Widget End -->
+ <script>
+        function calculateBMIAndCalories() {
+            var gender = document.getElementById("gender").value;
+            var weight = document.getElementById("weight").value;
+            var height = document.getElementById("height").value;
+            var age = document.getElementById("age").value;
+            var activityLevel = document.getElementById("activityLevel").value;
+
+            if (weight > 0 && height > 0 && age > 0) {
+                // BMI calculation
+                var bmi = (weight / ((height / 100) ** 2)).toFixed(2);
+
+                // Harris-Benedict equation for calorie calculation
+                var bmr;
+                if (gender === "male") {
+                    bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+                } else {
+                    bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+                }
+
+                // Adjust BMR based on activity level
+                var calories;
+                switch (activityLevel) {
+                    case "sedentary":
+                        calories = bmr * 1.2;
+                        break;
+                    case "lightlyActive":
+                        calories = bmr * 1.375;
+                        break;
+                    case "moderatelyActive":
+                        calories = bmr * 1.55;
+                        break;
+                    case "veryActive":
+                        calories = bmr * 1.725;
+                        break;
+                    case "extraActive":
+                        calories = bmr * 1.9;
+                        break;
+                    default:
+                        calories = 0;
+                }
+
+                // Display results
+                var resultMessage = "Your BMI is: " + bmi + "\n";
+                resultMessage += "Estimated Daily Calories Needed: " + calories.toFixed(2) + " calories";
+                document.getElementById("result").value = resultMessage;
+            } else {
+                alert("Please enter valid values for weight, height, age, and select gender and activity level.");
+            }
+        }
+    </script>
+
+
+
+
+
+
+
+{% endblock %}

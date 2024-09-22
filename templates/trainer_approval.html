@@ -1,0 +1,42 @@
+
+{% extends 'adminbase.html' %}
+{% block content %}
+{% load static %}
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Trainer Approval List</h6>
+<!--                        <a href="" style="border:solid green;padding:5px;color:green;margin-left:860px;">Approvals</a>-->
+<!--                        <a href="{% url 'trainer_reg' %}" style="border:solid;padding:5px;">Add Trainer</a>-->
+
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                    <th scope="col">Trainer Name</th>
+                                    <th scope="col">Trainer Age</th>
+                                    <th scope="col">Trainer Level</th>
+                                    <th scope="col">Trainer Certificate </th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in tr %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.trainer_name}}</td>
+                                    <td>{{i.trainer_age}}</td>
+                                    <td>{{i.trainer_level}}</td>
+                                    <td>{{i.trainer_certificate}}</td>
+                                    <td><a href="{% url 'tad' i.id %}"><button style="padding-right:15px;padding-left:15px;" class="btn btn-success btn-sm">Approve</button></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

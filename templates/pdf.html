@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sales Report</title>
+    <style type="text/css">
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 5px;
+            background-color: #fff;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 5px;
+            vertical-align: top;
+            border-top: 1px solid #000;
+            text-align: center;
+            font-size:12px;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #000;
+        }
+
+        .table tbody + tbody {
+            border-top: 2px solid #000;
+        }
+        td{
+            font-size:13px;
+        }
+
+        .table .table {
+            background-color: #fff;
+        }
+
+        .list-group {
+            display: block;
+            width: 100%;
+            list-style: none;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .list-group p {
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            list-style: none;
+            font-size: 1.1em;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3>Sales Report - {{ today | date:"d/m/Y" }}</h3>
+        </div>
+
+        <div class="list-group">
+            <p style="text-align:center;font-size:16px;"><b>Pending Orders list</b></p>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th colspan="1">No.</th>
+                <th colspan="3">Customer name</th>
+                <th colspan="5">Total Products</th>
+                <th colspan="2">Ordered Date</th>
+                <th colspan="2">Delivery Date</th>
+                <th colspan="2">Total Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in po %}
+                <tr>
+                    <td colspan="1">{{forloop.counter}}</td>
+                    <td colspan="3" style="font-size:13px;">{{i.customer.first_name}} {{i.customer.last_name}}</td>
+                    {% load lower_filter %}
+                    <td colspan="5" style="font-size:13px;height:90px;width:200px;">{{i.items|remove_json_syntax}}</td>
+                    <td colspan="2">{{i.date}}</td>
+                    <td colspan="2">{{i.delivery_date}}</td>
+                    <td colspan="2">Rs. {{i.total_amount}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p style="text-align:right;margin-right:24px;font-size:14px;"><b>Total - Rs. {{tot}}</b></p>
+    </div>
+</div>
+
+</body>
+</html>
